@@ -1,10 +1,8 @@
-## Total emmission in US
-## Have total emissions from PM2.5 decreased in the United States from 1999 to 2008?
-## Using the base plotting system, make a plot showing the total PM2.5 emission from 
-## all sources for each of the years 1999, 2002, 2005, and 2008.
+## Total Emission in Baltimore
+## Have total emissions from PM2.5 decreased in the Baltimore City, Maryland (fips == "24510")
+## from 1999 to 2008? 
 
-
-plot1 <- function() {
+plot2 <- function() {
     # If the data has not been unpacked, try to unpack
     if(!file.exists("exdata-data-NEI_data") )
     {
@@ -26,21 +24,20 @@ plot1 <- function() {
     }
     
     png(
-        "plot1.png",
+        "plot2.png",
         width     = 480,
         height    = 480,
         units     = "px",
     )
     
-    # Sum PM2.5 Emission by year for entire USA
-    usaSum <- tapply(NEI$Emissions, NEI$year,sum)
+    # baltimore
+    baltimore <- NEI[which(NEI$fips=="24510"),]
     
-    # Convert from tons to 1000's of tons, as more readable                  
-    usaSum1000 <-  usaSum / 1000
-    
-    usaSumDf <- as.data.frame(usaSum1000)
-    plot( row.names(usaSumDf),usaSumDf$usaSum,  xlab="Year", ylab="Emissions (1000's tons)")
-    title(main= "USA PM2.5 Emission 1999-2008") 
+    baltimoreSum <- tapply(baltimore$Emissions, baltimore$year,sum)
+    baltimoreSumDf <- as.data.frame(baltimoreSum)
+    plot( row.names(baltimoreSumDf),baltimoreSumDf$baltimoreSum, xlab="Year", ylab="Emissions (tons)")
+    title(main = "Baltimore PM2.5 Emissions 1999-2008")
+
     
     dev.off()
 }
