@@ -1,8 +1,5 @@
-##  Emission Types in Baltimore
-## Of the four types of sources indicated by the type (point, nonpoint, onroad, nonroad)
-## variable, which of these four sources have seen decreases in emissions from 1999–2008 for Baltimore City? 
-## Which have seen increases in emissions from 1999–2008? Use the ggplot2 plotting system to make a plot answer this question.
-
+##  Across the United States, how have emissions from coal combustion-related sources
+## changed from 1999–2008?
 
 plot4 <- function() {
     # If the data has not been unpacked, try to unpack
@@ -33,13 +30,16 @@ plot4 <- function() {
     )
 
     # create a logical row wise vector for coal sector
-    # all the black and brown (lignite) coal based emissions
+    # all the black and brown (lignite) coal based emissions include
     isect <- grep("coal",SCC$EI.Sector,ignore.case = TRUE,perl=TRUE)
     sector <- SCC[isect,]
     coalOnly <- NEI[which(NEI$SCC %in% sector$SCC),]
+    
+
     coalSum <- tapply(coalOnly$Emissions, coalOnly$year,sum)
     coalSum1000 <- coalSum / 1000
     coalSumDf <- as.data.frame(coalSum1000)
+    
     plot( row.names(coalSumDf),coalSumDf$coalSum,  xlab="Year",  ylab="Emissions (1000 tons)")
     title(main= "USA PM2.5 Emission 1999-2000 from Coal")
     
